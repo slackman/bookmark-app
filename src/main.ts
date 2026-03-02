@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import './assets/main.css';
 import { createPinia } from 'pinia';
-import { createRouter, createWebHistory } from 'vue-router';
 import { router } from './routes';
 
 const pinia = createPinia();
