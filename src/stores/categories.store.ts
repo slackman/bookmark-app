@@ -20,12 +20,32 @@ export const useCategoryStore = defineStore('categories', () => {
     categories.value.push(data);
   }
 
-  function getCategoryByAlias(alias: string | string[]): Category | undefined {
+  async function updateCategory(name: string, alias: string, id: number) {
+    await client().put<Category>(API_ROUTES.categories + '/' + id, {
+      name,
+      alias,
+    });
+    fetchCategories();
+  }
+
+  async function deleteCategory(id: number) {
+    await client().delete<Category>(API_ROUTES.categories + '/' + id);
+    fetchCategories();
+  }
+
+  function getCategoryByAlias(alias: string | string[] | undefined): Category | undefined {
     if (typeof alias == 'string') {
       return categories.value.find((c) => c.alias == alias);
     }
     return;
   }
 
-  return { categories, fetchCategories, createCategory, getCategoryByAlias };
+  return {
+    categories,
+    fetchCategories,
+    createCategory,
+    getCategoryByAlias,
+    updateCategory,
+    deleteCategory,
+  };
 });

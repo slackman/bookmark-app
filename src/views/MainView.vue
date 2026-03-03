@@ -9,7 +9,9 @@ import ProfileAvatar from '../components/ProfileAvatar.vue';
       <ProfileAvatar />
       <CategoryList />
     </nav>
-    <main><RouterView /></main>
+    <main>
+      <RouterView />
+    </main>
   </div>
 </template>
 
@@ -24,5 +26,8 @@ import ProfileAvatar from '../components/ProfileAvatar.vue';
 
 .nav {
   min-width: 320px;
+}
+main {
+  width: 100%;
 }
 </style>
