@@ -41,5 +41,6 @@ const emit = defineEmits<{
 .sort-item.active {
   color: var(--color-fg);
   border-bottom: 2px solid var(--color-fg);
+  font-weight: 700;
 }
 </style>

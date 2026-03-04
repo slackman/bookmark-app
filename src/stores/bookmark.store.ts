@@ -5,16 +5,29 @@ import type { Bookmark } from '@/interfaces/bookmark.interface';
 
 export const useBookmarkStore = defineStore('bookmarks', () => {
   const bookmarks = ref<Bookmark[]>([]);
+  const activeSort = ref<string>('date');
 
-  async function fetchBookmarks(categoryId: number) {
-    const { data } = await client().get<Bookmark[]>(API_ROUTES.bookmarks.get(categoryId));
+  async function fetchBookmarks(categoryId: number, sort: string) {
+    const { data } = await client().get<Bookmark[]>(API_ROUTES.bookmarks.get(categoryId), {
+      params: {
+        sort,
+      },
+    });
     bookmarks.value = data;
   }
 
   async function deleteBookmark(id: number, categoryId: number) {
     await client().delete<Bookmark[]>(API_ROUTES.bookmarks.delete(id));
-    fetchBookmarks(categoryId);
+    fetchBookmarks(categoryId, activeSort.value);
   }
 
-  return { bookmarks, fetchBookmarks, deleteBookmark };
+  async function addBookmark(url: string, category_id: number) {
+    const { data } = await client().post<Bookmark>(API_ROUTES.bookmarks.create, {
+      url,
+      category_id,
+    });
+    bookmarks.value.push(data);
+  }
+
+  return { bookmarks, fetchBookmarks, deleteBookmark, activeSort, addBookmark };
 });
